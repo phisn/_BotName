@@ -1,0 +1,2 @@
+﻿- automatically aquire roles from steam library
+-> alt. search for playing game and give role
