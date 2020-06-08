@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace _BotName.source
 {
-    class CommandHandler
+    public class CommandHandler
     {
         private static char Prefix = '_';
 
