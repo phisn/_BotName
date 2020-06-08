@@ -50,6 +50,8 @@ namespace _BotName
 				client,
 				commandService);
 
+			await commandHandler.InstallCommandsAsync();
+
 			// Block this task until the program is closed.
 			await Task.Delay(-1);
 		}
