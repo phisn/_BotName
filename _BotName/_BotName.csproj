@@ -12,6 +12,7 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -24,7 +25,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -98,10 +98,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="source\CommandHandler.cs" />
-    <Compile Include="source\modules\InfoModule.cs" />
     <Compile Include="source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="source\ServerController.cs" />
+    <Compile Include="source\_casino\CasinoController.cs" />
+    <Compile Include="source\_casino\CasinoInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
