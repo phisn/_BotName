@@ -14,7 +14,7 @@ namespace _BotName.Source.Casino
 		public Task InfoAsync()
 		{
 			return ReplyAsync(
-@"Casino Commands:
+@"**Casino Commands**:
 -> info [user]
 Get Casino user information
 -> give <user> <amount>
@@ -22,7 +22,21 @@ Give a user money
 -> claim
 Claim daily money
 -> coin <head/tail> <amount>
-Flip a Coin and double your money");
+Flip a Coin and double your money
+-> challange <user> <amount>
+Flip a Coint. One of you will get it all
+:> challange info [user]
+Get info about exisiting challanges
+:> challange accept <user>
+Accept challange from a user
+:> challange decline [user]
+Decline a challange from a user or all challanges
+
+**Soon:**
+-> attack <user> <amount>
+Similar to Challange but the attacker cant
+decline. Lower probability to succeed");
+			
 		}
 
 		[Command("casino info")]

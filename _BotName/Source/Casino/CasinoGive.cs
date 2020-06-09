@@ -15,7 +15,10 @@ namespace _BotName.Source.Casino
 		public Task GiveAsync(int? amount, IUser user = null)
 		{
 			if (amount == null || user == null)
-				return ReplyAsync("Usage: give <amount> <user<");
+				return ReplyAsync("Usage: give <amount> <user>");
+
+			if (amount.Value <= 0)
+				return ReplyAsync("Amount has to be over 0");
 
 			CasinoUser casinoUserGiver = CasinoController.Instance.GetUser(Context.User.Id);
 
