@@ -97,7 +97,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Source\Casino\CasinoChallange.cs" />
+    <Compile Include="Source\Casino\CasinoChallenge.cs" />
     <Compile Include="Source\Casino\CasinoClaim.cs" />
     <Compile Include="Source\Casino\CasinoCoinFlip.cs" />
     <Compile Include="Source\Casino\CasinoGive.cs" />

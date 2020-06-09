@@ -23,18 +23,18 @@ Give a user money
 Claim daily money
 -> coin <head/tail> <amount>
 Flip a Coin and double your money
--> challange <user> <amount>
+-> challenge <user> <amount>
 Flip a Coint. One of you will get it all
-:> challange info [user]
-Get info about exisiting challanges
-:> challange accept <user>
-Accept challange from a user
-:> challange decline [user]
-Decline a challange from a user or all challanges
+:> challenge info [user]
+Get info about exisiting challenges
+:> challenge accept <user>
+Accept challenge from a user
+:> challenge decline [user]
+Decline a challenge from a user or all challenges
 
 **Soon:**
 -> attack <user> <amount>
-Similar to Challange but the attacker cant
+Similar to Challenge but the attacker cant
 decline. Lower probability to succeed");
 			
 		}
