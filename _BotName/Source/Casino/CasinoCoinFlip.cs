@@ -14,12 +14,13 @@ namespace _BotName.Source.Casino
 		Tail
 	}
 
+	[Group("casino")]
 	public class CasinoCoinFlip : ModuleBase<SocketCommandContext>
 	{
 		private static string usage = "Usage: coin <head/tail> <amount>";
 
-		[Command("casino coin")]
-		[Alias("casino flip")]
+		[Command("coin")]
+		[Alias("flip")]
 		public Task QueryAsync(string mode = null, int? amount = null)
 		{
 			if (mode == null || amount == null)
