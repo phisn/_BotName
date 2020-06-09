@@ -45,7 +45,7 @@ namespace _BotName.Source.Casino
 			casinoUser.Money += amount.Value;
 			CasinoController.Instance.Save();
 
-			return ReplyAsync($"{amount} appeared in {user.Username}#{user.Discriminator} pocket");
+			return ReplyAsync($"{amount} money appeared in {user.Username}#{user.Discriminator} pocket");
 		}
 	}
 }
