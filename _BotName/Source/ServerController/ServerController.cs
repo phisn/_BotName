@@ -9,17 +9,9 @@ namespace _BotName.source
 {
     public class ServerController
     {
-        static private ServerController instance;
-        static public ServerController Instance
-        {
-            get
-            {
-                if (instance == null)
-                    instance = new ServerController();
-
-                return instance;
-            }
-        }
+        public static ServerController Instance { get { return lazy.Value; } }
+        private static readonly Lazy<ServerController> lazy =
+            new Lazy<ServerController>(() => new ServerController());
 
         private Process processTTT;
         private Process processTerraria;

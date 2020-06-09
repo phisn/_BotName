@@ -13,7 +13,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>publish\</PublishUrl>
+    <PublishUrl>D\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -48,7 +48,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationManifest>Config\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Discord.Net.Commands, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -97,20 +97,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="source\CommandHandler.cs" />
-    <Compile Include="source\Program.cs" />
+    <Compile Include="Source\Casino\CasinoClaim.cs" />
+    <Compile Include="Source\Casino\CasinoCoinFlip.cs" />
+    <Compile Include="Source\CommandHandler.cs" />
+    <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="source\ServerController.cs" />
-    <Compile Include="source\_casino\CasinoController.cs" />
-    <Compile Include="source\_casino\CasinoInfo.cs" />
+    <Compile Include="Source\ServerController\ServerController.cs" />
+    <Compile Include="Source\Casino\CasinoController.cs" />
+    <Compile Include="Source\Casino\CasinoInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="app.manifest" />
-    <None Include="packages.config" />
+    <None Include="Config\App.config" />
+    <None Include="Config\app.manifest" />
+    <None Include="Config\packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ideas.txt" />
+    <Content Include="Docs\ideas.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

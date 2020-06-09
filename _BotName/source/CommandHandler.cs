@@ -11,7 +11,7 @@ namespace _BotName.source
 {
     public class CommandHandler
     {
-        private static char Prefix = '_';
+        private static char Prefix = '$';
 
         private readonly DiscordSocketClient client;
         private readonly CommandService commands;
