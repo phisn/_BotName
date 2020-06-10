@@ -31,6 +31,11 @@ Get info about exisiting challenges
 Accept challenge from a user
 :> challenge decline [user]
 Decline a challenge from a user or all challenges
+-> buy <item>
+Buy a item for casino money
+:> buy lucky
+Buy lucky role for money
+
 
 **Soon:**
 -> attack <user> <amount>

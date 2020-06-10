@@ -101,6 +101,8 @@
     <Compile Include="Source\Casino\CasinoClaim.cs" />
     <Compile Include="Source\Casino\CasinoCoinFlip.cs" />
     <Compile Include="Source\Casino\CasinoGive.cs" />
+    <Compile Include="Source\Casino\CasinoShop.cs" />
+    <Compile Include="Source\Casino\CasinoSlot.cs" />
     <Compile Include="Source\CommandHandler.cs" />
     <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

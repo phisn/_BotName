@@ -70,12 +70,12 @@ namespace _BotName.Source.Casino
 
 			CasinoUser casinoUserChallenged = CasinoController.Instance.GetUser(Context.User.Id);
 
-			if (casinoUserChallenged.Money <= challenge.amount)
+			if (casinoUserChallenged.Money < challenge.amount)
 				return ReplyAsync("You do no longer have enough money");
 
 			CasinoUser casinoUserChallenger = CasinoController.Instance.GetUser(user.Id);
 
-			if (casinoUserChallenger.Money <= challenge.amount)
+			if (casinoUserChallenger.Money < challenge.amount)
 				return ReplyAsync($"{user.Username}#{user.Discriminator} has no longer enough money");
 
 			CasinoUser casinoWinner, casinoLoser;
@@ -141,12 +141,12 @@ namespace _BotName.Source.Casino
 
 			CasinoUser casinoUserChallenger = CasinoController.Instance.GetUser(Context.User.Id);
 
-			if (casinoUserChallenger.Money <= amount.Value)
+			if (casinoUserChallenger.Money < amount.Value)
 				return ReplyAsync("Not enough money");
 
 			CasinoUser casinoUserChallenged = CasinoController.Instance.GetUser(user.Id);
 
-			if (casinoUserChallenged.Money <= amount.Value)
+			if (casinoUserChallenged.Money < amount.Value)
 				return ReplyAsync($"{user.Username}#{user.Discriminator} has not enough money");
 
 			Challenge challenge = new Challenge();

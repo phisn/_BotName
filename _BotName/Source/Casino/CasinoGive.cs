@@ -22,7 +22,7 @@ namespace _BotName.Source.Casino
 
 			CasinoUser casinoUserGiver = CasinoController.Instance.GetUser(Context.User.Id);
 
-			if (casinoUserGiver.Money <= amount.Value)
+			if (casinoUserGiver.Money < amount.Value)
 				return ReplyAsync("Not enough money");
 
 			CasinoUser casinoUserGetter = CasinoController.Instance.GetUser(user.Id);
