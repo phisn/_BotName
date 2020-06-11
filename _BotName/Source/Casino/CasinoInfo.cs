@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using _BotName.source;
+using Discord;
 using Discord.Commands;
 using System;
 using System.Collections.Generic;
@@ -11,37 +12,44 @@ namespace _BotName.Source.Casino
 	public class CasinoInfo : ModuleBase<SocketCommandContext>
 	{
 		[Command("casino")]
+		[Alias("casino help")]
 		public Task InfoAsync()
 		{
 			return ReplyAsync(
-@"**Casino Commands**:
--> info [user]
-Get Casino user information
--> give <user> <amount>
-Give a user money
--> claim
-Claim daily money
--> coin <head/tail> <amount>
-Flip a Coin and double your money
--> challenge <user> <amount>
-Flip a Coint. One of you will get it all
-:> challenge info [user]
-Get info about exisiting challenges
-:> challenge accept <user>
-Accept challenge from a user
-:> challenge decline [user]
-Decline a challenge from a user or all challenges
--> buy <item>
-Buy a item for casino money
-:> buy lucky
-Buy lucky role for money
-
-
-**Soon:**
--> attack <user> <amount>
-Similar to Challenge but the attacker cant
-decline. Lower probability to succeed");
-			
+$@"**Casino Commands**:
+All commands need the {CommandHandler.Prefix}casino prefix
+```
+> info [user]
+  Get information about a user or yourself.
+> give <user> <amount>
+  Give someone a amount of money
+> claim
+  Claim your hourly money between 1 and 100
+> coin <head/tail> <amount>
+  Flip a coin and maybe double your money
+> dice <1 - 6> <amount>
+  Throw a dice and sextuple your money
+> slot <amount>
+  Use a slot machine and get up to 200x
+  your money.
+>> slot info
+   For more information about slot wins
+> challange <user> <amount>
+  Challange someone and maybe win his money
+>> challange info [user]
+   Get the info about all your challanges
+   Or info about your challanges to someone
+   Or info about challanges from someone to you
+>> challange accept <user>
+   Accept a challange from someone
+>> challange decline [user]
+   Decline a challange from someone
+   Or decline all your challanges
+> buy <item>
+  Buy a item for casino money
+>> buy lucky
+   Buy the lucky role for 10000 money
+```");
 		}
 
 		[Command("casino info")]

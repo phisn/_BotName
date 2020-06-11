@@ -12,6 +12,12 @@ namespace _BotName.Source.Casino
 	public class CasinoGive : ModuleBase<SocketCommandContext>
 	{
 		[Command("give")]
+		public Task Give2Async(IUser user = null, int? amount = null)
+		{
+			return GiveAsync(amount, user);
+		}
+
+		[Command("give")]
 		public Task GiveAsync(int? amount, IUser user = null)
 		{
 			if (amount == null || user == null)

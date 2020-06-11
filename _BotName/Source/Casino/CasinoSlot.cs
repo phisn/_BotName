@@ -1,5 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -130,6 +131,21 @@ namespace _BotName.Source.Casino
 
 			CasinoController.Instance.Save();
 
+			if (win == SlotWin.Bar)
+			{
+				try
+				{
+					SocketRole luckyRole = Context.Guild.Roles.First(role => role.Name == "Jackpot");
+					IGuildUser guildUser = (IGuildUser) user;
+
+					guildUser.AddRoleAsync(luckyRole).GetAwaiter().GetResult();
+				}
+				catch (Exception e)
+				{
+					Console.WriteLine($"Failed to give jackpot role: {e.Message}");
+				}
+			}
+
 			return ReplyAsync(builder.ToString());
 		}
 
@@ -138,17 +154,22 @@ namespace _BotName.Source.Casino
 		{
 			return ReplyAsync(
 @"**Casino slot info**
+```
 Usage:
- slot <amount>
+> slot <amount>
+  Use a slot machine and get up to
+  200x your money
+
 Multi:
- 3 x J => 60x
- 3 x 7 => 40x
- 3 x ? => 20x
- 3 x A => 10x
- 3 x B => 10x
- 3 x C => 10x
- 2 x ? => 3x
- 1 x ? => 1x");
+ 3 x J => 200x
+ 3 x 7 =>  50x
+ 3 x ? =>  20x
+ 3 x A =>  10x
+ 3 x B =>  10x
+ 3 x C =>  10x
+ 2 x ? =>   3x
+ 1 x ? =>   1x
+```");
 		}
 
 		private void AppendWinMessage(StringBuilder builder, SlotWin win)
@@ -184,9 +205,9 @@ Multi:
 			switch (win)
 			{
 				case SlotWin.Bar:
-					return 60;
+					return 200;
 				case SlotWin.Seven:
-					return 40;
+					return 50;
 				case SlotWin.TripleCherry:
 					return 20;
 				case SlotWin.TreeFruits:

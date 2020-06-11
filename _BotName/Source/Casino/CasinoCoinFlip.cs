@@ -3,6 +3,7 @@ using Discord.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,9 +21,21 @@ namespace _BotName.Source.Casino
 		private static string coin_usage = "Usage: coin <head/tail> <amount>";
 		private static string dice_usage = "Usage: dice <1 - 6> <amount>";
 
+		[Command("coin all")]
+		[Alias("flip all", "coin max", "flip max")]
+		public Task CoinAllAsync(string mode = null)
+		{
+			CasinoUser user = CasinoController.Instance.GetUser(Context.User.Id);
+
+			if (user.Money == 0)
+				return ReplyAsync("You don't have any money");
+
+			return CoinAsync(mode, user.Money);
+		}
+
 		[Command("coin")]
 		[Alias("flip")]
-		public Task QueryAsync(string mode = null, int? amount = null)
+		public Task CoinAsync(string mode = null, int? amount = null)
 		{
 			if (mode == null || amount == null)
 				return ReplyAsync(coin_usage);
