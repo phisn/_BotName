@@ -113,7 +113,7 @@
   <ItemGroup>
     <None Include="Config\App.config" />
     <None Include="Config\app.manifest" />
-    <None Include="Config\packages.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Docs\ideas.txt" />

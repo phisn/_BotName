@@ -29,7 +29,7 @@ namespace _BotName.Source.Casino
 			CasinoUser casinoUserGiver = CasinoController.Instance.GetUser(Context.User.Id);
 
 			if (casinoUserGiver.Money < amount.Value)
-				return ReplyAsync("Not enough money");
+				return ReplyAsync("Not enough ₩");
 
 			CasinoUser casinoUserGetter = CasinoController.Instance.GetUser(user.Id);
 
@@ -38,7 +38,7 @@ namespace _BotName.Source.Casino
 
 			CasinoController.Instance.Save();
 
-			return ReplyAsync($"{Context.User.Username}#{Context.User.Discriminator} gave {user.Username}#{user.Discriminator} {amount} money");
+			return ReplyAsync($"{Context.User.Username}#{Context.User.Discriminator} gave {user.Username}#{user.Discriminator} {amount} ₩");
 		}
 
 		[Command("reset")]
@@ -51,7 +51,7 @@ namespace _BotName.Source.Casino
 			casinoUser.Money = 0;
 			CasinoController.Instance.Save();
 
-			return ReplyAsync($"{user.Username}#{user.Discriminator}'s money was all taken away");
+			return ReplyAsync($"{user.Username}#{user.Discriminator}'s ₩ was all taken away");
 		}
 
 		[Command("cheat")]
@@ -67,7 +67,7 @@ namespace _BotName.Source.Casino
 			casinoUser.Money += amount.Value;
 			CasinoController.Instance.Save();
 
-			return ReplyAsync($"{amount} money appeared in {user.Username}#{user.Discriminator} pocket");
+			return ReplyAsync($"{amount} ₩ appeared in {user.Username}#{user.Discriminator} pocket");
 		}
 	}
 }

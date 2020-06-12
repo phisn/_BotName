@@ -24,7 +24,7 @@ namespace _BotName.Source.Casino
 			{
 				DateTime nextClaim = lastClaim.AddHours(1);
 				if (DateTime.Now < nextClaim)
-					return ReplyAsync($"You already claimed your money, next claim available in {(int)Math.Round((nextClaim - DateTime.Now).TotalMinutes)} minutes");
+					return ReplyAsync($"You already claimed your ₩, next claim available in {(int)Math.Round((nextClaim - DateTime.Now).TotalMinutes)} minutes");
 
 				claims[Context.User.Id] = DateTime.Now;
 			}
@@ -38,7 +38,7 @@ namespace _BotName.Source.Casino
 			CasinoController.Instance.GetUser(Context.User.Id).Money += claimedMoney;
 			CasinoController.Instance.Save();
 
-			return ReplyAsync($"You claimed {claimedMoney} money");
+			return ReplyAsync($"You claimed {claimedMoney} ₩");
 		}
 
 		[Command("claim force")]
@@ -59,7 +59,7 @@ namespace _BotName.Source.Casino
 			CasinoController.Instance.GetUser(Context.User.Id).Money += claimedMoney;
 			CasinoController.Instance.Save();
 
-			return ReplyAsync($"You instant claimed {claimedMoney} money");
+			return ReplyAsync($"You instant claimed {claimedMoney} ₩");
 		}
 	}
 }

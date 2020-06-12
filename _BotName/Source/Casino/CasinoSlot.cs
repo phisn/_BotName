@@ -34,10 +34,10 @@ namespace _BotName.Source.Casino
 	[Group("casino")]
 	public class CasinoSlot : ModuleBase<SocketCommandContext>
 	{
-		private static string slot_quick_usage = "Usage: slot quick <count (< 20)> <amount>";
+		private static string slot_quick_usage = "Usage: slot quick <count (< 100)> <amount>";
 		private static string slot_usage = "Usage: slot <amount>";
 
-		private static int slot_quick_count_max = 20;
+		private static int slot_quick_count_max = 100;
 
 		private static int reelLength = 23;
 		private static SlotSymbol[] reel1 =
@@ -117,7 +117,7 @@ namespace _BotName.Source.Casino
 			CasinoUser user = CasinoController.Instance.GetUser(Context.User.Id);
 
 			if (user.Money < amount * count.Value)
-				return ReplyAsync("You don't have enough money");
+				return ReplyAsync("You don't have enough ₩");
 
 			StringBuilder builder = new StringBuilder();
 
@@ -146,8 +146,8 @@ namespace _BotName.Source.Casino
 			}
 			else
 			{
-				builder.AppendLine($"You highest win is {SlotWinToMessage(highestWin)}");
-				builder.AppendLine($"You have won {money} money");
+				builder.AppendLine($"Your highest win is {SlotWinToMessage(highestWin)}");
+				builder.AppendLine($"You have won {money} ₩");
 				user.Money += money;
 			}
 
@@ -185,7 +185,7 @@ namespace _BotName.Source.Casino
 			CasinoUser user = CasinoController.Instance.GetUser(Context.User.Id);
 
 			if (user.Money < amount)
-				return ReplyAsync("You don't have enough money");
+				return ReplyAsync("You don't have enough ₩");
 
 			StringBuilder builder = new StringBuilder();
 
@@ -203,7 +203,7 @@ namespace _BotName.Source.Casino
 			{
 				builder.AppendLine($"You got {SlotWinToMessage(win)}");
 				int multi = GetSlotWinMulti(win);
-				builder.AppendLine($"You have won {multi * amount} money");
+				builder.AppendLine($"You have won {multi * amount} ₩");
 				user.Money += (multi - 1) * amount.Value;
 			}
 

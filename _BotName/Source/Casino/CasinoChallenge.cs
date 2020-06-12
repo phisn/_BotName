@@ -50,7 +50,7 @@ namespace _BotName.Source.Casino
 					return ReplyAsync($"Got no challenge from or to {user.Username}#{user.Discriminator}");
 				}
 
-				return ReplyAsync($"Got challenge from {user.Username}#{user.Discriminator} for {challenge.amount} money");
+				return ReplyAsync($"Got challenge from {user.Username}#{user.Discriminator} for {challenge.amount} ₩");
 			}
 		}
 
@@ -71,12 +71,12 @@ namespace _BotName.Source.Casino
 			CasinoUser casinoUserChallenged = CasinoController.Instance.GetUser(Context.User.Id);
 
 			if (casinoUserChallenged.Money < challenge.amount)
-				return ReplyAsync("You do no longer have enough money");
+				return ReplyAsync("You do no longer have enough ₩");
 
 			CasinoUser casinoUserChallenger = CasinoController.Instance.GetUser(user.Id);
 
 			if (casinoUserChallenger.Money < challenge.amount)
-				return ReplyAsync($"{user.Username}#{user.Discriminator} has no longer enough money");
+				return ReplyAsync($"{user.Username}#{user.Discriminator} has no longer enough ₩");
 
 			CasinoUser casinoWinner, casinoLoser;
 			IUser winner, loser;
@@ -103,7 +103,7 @@ namespace _BotName.Source.Casino
 
 			CasinoController.Instance.Save();
 
-			return ReplyAsync($"{winner.Username}#{winner.Discriminator} won from {loser.Username}#{loser.Discriminator} {challenge.amount} money");
+			return ReplyAsync($"{winner.Username}#{winner.Discriminator} won from {loser.Username}#{loser.Discriminator} {challenge.amount} ₩");
 		}
 
 		[Command("challenge decline")]
@@ -142,19 +142,19 @@ namespace _BotName.Source.Casino
 			CasinoUser casinoUserChallenger = CasinoController.Instance.GetUser(Context.User.Id);
 
 			if (casinoUserChallenger.Money < amount.Value)
-				return ReplyAsync("Not enough money");
+				return ReplyAsync("Not enough ₩");
 
 			CasinoUser casinoUserChallenged = CasinoController.Instance.GetUser(user.Id);
 
 			if (casinoUserChallenged.Money < amount.Value)
-				return ReplyAsync($"{user.Username}#{user.Discriminator} has not enough money");
+				return ReplyAsync($"{user.Username}#{user.Discriminator} has not enough ₩");
 
 			Challenge challenge = new Challenge();
 			challenge.amount = amount.Value;
 			challenge.name = $"{user.Username}#{user.Discriminator}";
 			challenges.Add(Context.User.Id, challenge);
 
-			return ReplyAsync($"{Context.User.Username}#{Context.User.Discriminator} challenged {user.Username}#{user.Discriminator} for {amount} money");
+			return ReplyAsync($"{Context.User.Username}#{Context.User.Discriminator} challenged {user.Username}#{user.Discriminator} for {amount} ₩");
 		}
 
 		[Command("attack")]
@@ -166,7 +166,7 @@ namespace _BotName.Source.Casino
 			CasinoUser casinoUserGiver = CasinoController.Instance.GetUser(Context.User.Id);
 
 			if (casinoUserGiver.Money <= amount.Value)
-				return ReplyAsync("Not enough money");
+				return ReplyAsync("Not enough ₩");
 
 			CasinoUser casinoUserGetter = CasinoController.Instance.GetUser(user.Id);
 
@@ -175,7 +175,7 @@ namespace _BotName.Source.Casino
 
 			CasinoController.Instance.Save();
 
-			return ReplyAsync($"{Context.User.Username}#{Context.User.Discriminator} gave {user.Username}#{user.Discriminator} {amount} money");
+			return ReplyAsync($"{Context.User.Username}#{Context.User.Discriminator} gave {user.Username}#{user.Discriminator} {amount} ₩");
 		}
 
 		private Dictionary<ulong, Challenge> EmplaceChallenges(ulong userID)

@@ -18,6 +18,7 @@ namespace _BotName.Source.Casino
 			return ReplyAsync(
 $@"**Casino Commands**:
 All commands need the {CommandHandler.Prefix}casino prefix
+₩ for _waehrungname
 ```
 > info [user]
   Get information about a user or yourself.
@@ -34,7 +35,7 @@ All commands need the {CommandHandler.Prefix}casino prefix
   your money.
 >> slot info
    For more information about slot wins
->> slot quick <count (< 20)> <amount>
+>> slot quick <count (< 100)> <amount>
    Play slot machine count times quickly
 > challange <user> <amount>
   Challange someone and maybe win his money
@@ -50,7 +51,7 @@ All commands need the {CommandHandler.Prefix}casino prefix
 > buy <item>
   Buy a item for casino money
 >> buy lucky
-   Buy the lucky role for 10000 money
+   Buy the lucky role for 10000 ₩
 ```");
 		}
 
@@ -63,7 +64,7 @@ All commands need the {CommandHandler.Prefix}casino prefix
 
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine($"User: {user.Username}#{user.Discriminator}");
-			stringBuilder.AppendLine($"Money: {casinoUser.Money}");
+			stringBuilder.AppendLine($"Money: {casinoUser.Money} ₩");
 
 			return ReplyAsync(stringBuilder.ToString());
 		}

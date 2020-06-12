@@ -28,7 +28,7 @@ namespace _BotName.Source.Casino
 			CasinoUser user = CasinoController.Instance.GetUser(Context.User.Id);
 
 			if (user.Money == 0)
-				return ReplyAsync("You don't have any money");
+				return ReplyAsync("You don't have any ₩");
 
 			return CoinAsync(mode, user.Money);
 		}
@@ -51,7 +51,7 @@ namespace _BotName.Source.Casino
 			CasinoUser user = CasinoController.Instance.GetUser(Context.User.Id);
 
 			if (user.Money < amount)
-				return ReplyAsync("You don't have enough money");
+				return ReplyAsync("You don't have enough ₩");
 
 			StringBuilder builder = new StringBuilder();
 
@@ -87,7 +87,7 @@ namespace _BotName.Source.Casino
 			CasinoUser user = CasinoController.Instance.GetUser(Context.User.Id);
 
 			if (user.Money < amount)
-				return ReplyAsync("You don't have enough money");
+				return ReplyAsync("You don't have enough ₩");
 
 			StringBuilder builder = new StringBuilder();
 

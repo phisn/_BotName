@@ -21,7 +21,7 @@ namespace _BotName.Source.Casino
 			CasinoUser casinoUser = CasinoController.Instance.GetUser(user.Id);
 
 			if (casinoUser.Money <= price_lucky)
-				return ReplyAsync($"Not enough money, lucky costs {price_lucky} money");
+				return ReplyAsync($"Not enough money, lucky costs {price_lucky} ₩");
 
 			try
 			{
@@ -39,7 +39,7 @@ namespace _BotName.Source.Casino
 				return ReplyAsync("Failed to buy role lucky");
 			}
 
-			return ReplyAsync($"You bought lucky for {price_lucky} money");
+			return ReplyAsync($"You bought lucky for {price_lucky} ₩");
 		}
 	}
 }
