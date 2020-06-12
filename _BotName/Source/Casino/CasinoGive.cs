@@ -41,6 +41,19 @@ namespace _BotName.Source.Casino
 			return ReplyAsync($"{Context.User.Username}#{Context.User.Discriminator} gave {user.Username}#{user.Discriminator} {amount} money");
 		}
 
+		[Command("reset")]
+		[RequireOwner]
+		public Task CheatAsync(IUser user = null)
+		{
+			user = user ?? Context.User;
+			CasinoUser casinoUser = CasinoController.Instance.GetUser(user.Id);
+
+			casinoUser.Money = 0;
+			CasinoController.Instance.Save();
+
+			return ReplyAsync($"{user.Username}#{user.Discriminator}'s money was all taken away");
+		}
+
 		[Command("cheat")]
 		[RequireOwner]
 		public Task CheatAsync(int? amount = null, IUser user = null)

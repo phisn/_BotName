@@ -34,6 +34,8 @@ All commands need the {CommandHandler.Prefix}casino prefix
   your money.
 >> slot info
    For more information about slot wins
+>> slot quick <count (< 20)> <amount>
+   Play slot machine count times quickly
 > challange <user> <amount>
   Challange someone and maybe win his money
 >> challange info [user]

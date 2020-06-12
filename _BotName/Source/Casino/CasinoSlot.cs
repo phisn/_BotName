@@ -23,18 +23,21 @@ namespace _BotName.Source.Casino
 	enum SlotWin
 	{
 		Lose,
-		Bar,
-		Seven,
-		TripleCherry,
-		DoubleCherry,
 		SingleCherry,
-		TreeFruits
+		DoubleCherry,
+		TreeFruits,
+		TripleCherry,
+		Seven,
+		Bar
 	}
 
 	[Group("casino")]
 	public class CasinoSlot : ModuleBase<SocketCommandContext>
 	{
+		private static string slot_quick_usage = "Usage: slot quick <count (< 20)> <amount>";
 		private static string slot_usage = "Usage: slot <amount>";
+
+		private static int slot_quick_count_max = 20;
 
 		private static int reelLength = 23;
 		private static SlotSymbol[] reel1 =
@@ -96,8 +99,82 @@ namespace _BotName.Source.Casino
 
 		private Random random = new Random();
 
+		[Command("slot quick")]
+		public Task SlotQuickAsync(int? count = null, int? amount = null)
+		{
+			if (amount == null)
+				return ReplyAsync(slot_quick_usage);
+
+			if (amount <= 0)
+				return ReplyAsync("Amount has to be over 0");
+
+			if (count <= 0)
+				return ReplyAsync("Count has to be over 0");
+
+			if (count > slot_quick_count_max)
+				return ReplyAsync($"Count has to be under {slot_quick_count_max}");
+
+			CasinoUser user = CasinoController.Instance.GetUser(Context.User.Id);
+
+			if (user.Money < amount * count.Value)
+				return ReplyAsync("You don't have enough money");
+
+			StringBuilder builder = new StringBuilder();
+
+			SlotWin highestWin = SlotWin.Lose;
+			int money = 0;
+
+			user.Money -= count.Value * amount.Value;
+
+			for (int i = 0; i < count.Value; ++i)
+			{
+				SlotSymbol[] symbols = RandomSlotSymbols();
+				SlotWin win = GetSlotWin(symbols);
+
+				builder.AppendLine($"[{SlotSymbolToCharacter(symbols[0])}|{SlotSymbolToCharacter(symbols[1])}|{SlotSymbolToCharacter(symbols[2])}]");
+				
+				if (win != SlotWin.Lose)
+					money += GetSlotWinMulti(win) * amount.Value;
+
+				if ((int) win > (int) highestWin)
+					highestWin = win;
+			}
+
+			if (highestWin == SlotWin.Lose)
+			{
+				builder.AppendLine($"You have won nothing at all");
+			}
+			else
+			{
+				builder.AppendLine($"You highest win is {SlotWinToMessage(highestWin)}");
+				builder.AppendLine($"You have won {money} money");
+				user.Money += money;
+			}
+
+			CasinoController.Instance.Save();
+
+			if (highestWin == SlotWin.Bar)
+			{
+				try
+				{
+					SocketRole luckyRole = Context.Guild.Roles.First(role => role.Name == "Jackpot");
+					IGuildUser guildUser = (IGuildUser)user;
+
+					guildUser.AddRoleAsync(luckyRole).GetAwaiter().GetResult();
+					builder.AppendLine("The jackpot role was given to you");
+				}
+				catch (Exception e)
+				{
+					Console.WriteLine($"Failed to give jackpot role: {e.Message}");
+				}
+			}
+
+			return ReplyAsync(builder.ToString());
+		}
+
+
 		[Command("slot")]
-		public Task QueryAsync(int? amount = null)
+		public Task SlotAsync(int? amount = null)
 		{
 			if (amount == null)
 				return ReplyAsync(slot_usage);
@@ -116,14 +193,15 @@ namespace _BotName.Source.Casino
 			SlotWin win = GetSlotWin(symbols);
 
 			builder.AppendLine($"[{SlotSymbolToCharacter(symbols[0])}|{SlotSymbolToCharacter(symbols[1])}|{SlotSymbolToCharacter(symbols[2])}]");
-			AppendWinMessage(builder, win);
 
 			if (win == SlotWin.Lose)
 			{
+				builder.AppendLine("You won nothing");
 				user.Money -= amount.Value;
 			}
 			else
 			{
+				builder.AppendLine($"You got {SlotWinToMessage(win)}");
 				int multi = GetSlotWinMulti(win);
 				builder.AppendLine($"You have won {multi * amount} money");
 				user.Money += (multi - 1) * amount.Value;
@@ -172,31 +250,24 @@ Multi:
 ```");
 		}
 
-		private void AppendWinMessage(StringBuilder builder, SlotWin win)
+		private string SlotWinToMessage(SlotWin win)
 		{
 			switch (win)
 			{
 				case SlotWin.Bar:
-					builder.AppendLine("You got three J's - JACKPOT!!!");
-					break;
+					return "three J's - JACKPOT!!!";
 				case SlotWin.Seven:
-					builder.AppendLine("You got three 7's!!");
-					break;
+					return "three 7's!!";
 				case SlotWin.TripleCherry:
-					builder.AppendLine("You got three ?'s!!");
-					break;
+					return "three ? 's!!";
 				case SlotWin.TreeFruits:
-					builder.AppendLine("You got three Letters's!");
-					break;
+					return "three Letters's!";
 				case SlotWin.DoubleCherry:
-					builder.AppendLine("You got two ?'s");
-					break;
+					return "two ?'s";
 				case SlotWin.SingleCherry:
-					builder.AppendLine("You got one ?");
-					break;
+					return "one ?";
 				default:
-					builder.AppendLine("You won nothing");
-					break;
+					return "nothing";
 			}
 		}
 
