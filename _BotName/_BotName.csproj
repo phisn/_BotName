@@ -48,7 +48,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationManifest>Config\app.manifest</ApplicationManifest>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Discord.Net.Commands, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -111,8 +111,8 @@
     <Compile Include="Source\Casino\CasinoInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config\App.config" />
-    <None Include="Config\app.manifest" />
+    <None Include="App.config" />
+    <None Include="app.manifest" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
