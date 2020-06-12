@@ -41,6 +41,15 @@ namespace _BotName.Source.Casino
 			return ReplyAsync($"You claimed {claimedMoney} ₩");
 		}
 
+
+		[Command("claim reset")]
+		[RequireOwner]
+		public Task ClaimResetAsync()
+		{
+			claims.Clear();
+			return ReplyAsync("Reseted all claims");
+		}
+
 		[Command("claim force")]
 		[RequireOwner]
 		public Task ClaimForceAsync()
