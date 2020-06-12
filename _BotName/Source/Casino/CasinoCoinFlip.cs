@@ -51,7 +51,7 @@ namespace _BotName.Source.Casino
 			CasinoUser user = CasinoController.Instance.GetUser(Context.User.Id);
 
 			if (user.Money < amount)
-				return ReplyAsync("You don't have enough ₩");
+				return ReplyAsync("You don't have enough money");
 
 			StringBuilder builder = new StringBuilder();
 
@@ -60,12 +60,12 @@ namespace _BotName.Source.Casino
 			
 			if (flippedSide == coinSide)
 			{
-				builder.AppendLine($"You earned {amount * 2}");
+				builder.AppendLine($"You earned {amount * 2} ₩");
 				user.Money += amount.Value;
 			}
 			else
 			{
-				builder.AppendLine($"You lost {amount}");
+				builder.AppendLine($"You lost {amount} ₩");
 				user.Money -= amount.Value;
 			}
 
@@ -87,7 +87,7 @@ namespace _BotName.Source.Casino
 			CasinoUser user = CasinoController.Instance.GetUser(Context.User.Id);
 
 			if (user.Money < amount)
-				return ReplyAsync("You don't have enough ₩");
+				return ReplyAsync("You don't have enough money");
 
 			StringBuilder builder = new StringBuilder();
 
@@ -96,12 +96,12 @@ namespace _BotName.Source.Casino
 
 			if (thrownNumber == number)
 			{
-				builder.AppendLine($"You earned {amount * 6}");
+				builder.AppendLine($"You earned {amount * 6} ₩");
 				user.Money += amount.Value * 5;
 			}
 			else
 			{
-				builder.AppendLine($"You lost {amount}");
+				builder.AppendLine($"You lost {amount} ₩");
 				user.Money -= amount.Value;
 			}
 
