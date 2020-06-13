@@ -1,16 +1,11 @@
-﻿using _BotName.source;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace _BotName
+namespace _BotName.Source
 {
 	public class Program
 	{
