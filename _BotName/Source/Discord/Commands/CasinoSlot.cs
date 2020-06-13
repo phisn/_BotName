@@ -5,8 +5,9 @@ using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using _BotName.Source.Casino;
 
-namespace _BotName.Source.Casino
+namespace _BotName.Source.Discord.Commands
 {
 	enum SlotSymbol
 	{

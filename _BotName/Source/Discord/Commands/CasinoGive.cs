@@ -1,8 +1,9 @@
 ﻿using Discord;
 using Discord.Commands;
 using System.Threading.Tasks;
+using _BotName.Source.Casino;
 
-namespace _BotName.Source.Casino
+namespace _BotName.Source.Discord.Commands
 {
 	[Group("casino")]
 	public class CasinoGive : ModuleBase<SocketCommandContext>

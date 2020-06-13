@@ -2,8 +2,9 @@
 using Discord.Commands;
 using System.Text;
 using System.Threading.Tasks;
+using _BotName.Source.Casino;
 
-namespace _BotName.Source.Casino
+namespace _BotName.Source.Discord.Commands
 {
 	public class CasinoInfo : ModuleBase<SocketCommandContext>
 	{
