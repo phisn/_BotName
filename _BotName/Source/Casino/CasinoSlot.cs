@@ -131,7 +131,8 @@ namespace _BotName.Source.Casino
 				SlotSymbol[] symbols = RandomSlotSymbols();
 				SlotWin win = GetSlotWin(symbols);
 
-				builder.AppendLine($"[{SlotSymbolToCharacter(symbols[0])}|{SlotSymbolToCharacter(symbols[1])}|{SlotSymbolToCharacter(symbols[2])}]");
+				if (win != SlotWin.Lose && win != SlotWin.SingleCherry)
+					builder.AppendLine($"[{SlotSymbolToCharacter(symbols[0])}|{SlotSymbolToCharacter(symbols[1])}|{SlotSymbolToCharacter(symbols[2])}]");
 				
 				if (win != SlotWin.Lose)
 					money += GetSlotWinMulti(win) * amount.Value;
