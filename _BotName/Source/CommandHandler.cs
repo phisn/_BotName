@@ -1,7 +1,9 @@
-﻿using Discord.Commands;
+﻿using System;
+using Discord.Commands;
 using Discord.WebSocket;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace _BotName.Source
 {
@@ -23,12 +25,23 @@ namespace _BotName.Source
             client.MessageReceived += HandleCommandAsync;
             await commands.AddModulesAsync(
                 Assembly.GetEntryAssembly(),
-                null);
+                ConfigureServices(commands));
+        }
+		
+        private IServiceProvider ConfigureServices(CommandService commands)
+        {
+            var map = new ServiceCollection()
+                .AddSingleton(client)
+                .AddSingleton(commands)
+                .AddSingleton<DiscordUtility>()
+                .AddSingleton<CommandHandler>();
+
+            return map.BuildServiceProvider();
         }
 
         private async Task HandleCommandAsync(SocketMessage messageParam)
         {
-            SocketUserMessage message = messageParam as SocketUserMessage;
+            SocketUserMessage message = (SocketUserMessage)messageParam;
             if (message == null) return;
 
             int argPos = 0;
