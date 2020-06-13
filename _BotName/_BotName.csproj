@@ -106,9 +106,11 @@
     <Compile Include="Source\CommandHandler.cs" />
     <Compile Include="Source\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source\ServerController\ServerController.cs" />
+    <Compile Include="Source\Server\ServerAdjust.cs" />
+    <Compile Include="Source\Server\ServerController.cs" />
     <Compile Include="Source\Casino\CasinoController.cs" />
     <Compile Include="Source\Casino\CasinoInfo.cs" />
+    <Compile Include="Source\Server\ServerInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -130,5 +132,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
