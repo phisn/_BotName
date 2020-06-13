@@ -24,7 +24,7 @@ namespace _BotName.Source.CasinoLogic.Shop
                 return ShopError.UnknownItem;
             }
             CasinoUser casinoUser = GetCasinoUser();
-            if (casinoUser.Money <= price) {
+            if (casinoUser.Money < price) {
                 return ShopError.NotEnoughMoney;
             }
             

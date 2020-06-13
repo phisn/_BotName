@@ -27,12 +27,26 @@ namespace _BotName.Source.Casino
     {
         public static CasinoController Instance { get { return lazy.Value; } }
         private static readonly Lazy<CasinoController> lazy =
-            new Lazy<CasinoController>(() => new CasinoController());
+            new Lazy<CasinoController>(() => new CasinoController(true));
 
         private static string filename = "casino.bin";
         private CasinoContainer casinoContainer;
 
-        private CasinoController()
+        
+        /**
+         * Do not use this constructor directly. Please use .Instance property.
+         */
+        public CasinoController(bool usedFactory = false)
+        {
+            if (!usedFactory)
+            {
+                throw new Exception("Please access singleton instance by .Instance property!");
+            }
+            // ReSharper disable once VirtualMemberCallInConstructor
+            Initialize();
+        }
+
+        public virtual void Initialize()
         {
             try
             {
@@ -60,7 +74,7 @@ namespace _BotName.Source.Casino
             }
         }
 
-        public CasinoUser GetUser(ulong userID)
+        public virtual CasinoUser GetUser(ulong userID)
         {
             CasinoUser casinoUser;
 
@@ -73,7 +87,7 @@ namespace _BotName.Source.Casino
             return casinoUser;
         }
 
-        public void Save()
+        public virtual void Save()
         {
             try
             {
