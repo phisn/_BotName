@@ -17,18 +17,14 @@ namespace _BotName.Source.Casino.Currency
         public int NextClaimMinutes => (int) Math.Round((NextClaimTime - DateTime.Now).TotalMinutes);
     }
     
-    public class Claim
+    public class Claim: AbstractCasinoUtility
     {
         private Dictionary<ulong, DateTime> claims = new Dictionary<ulong, DateTime>();
         private readonly int minClaim = 1;
         private readonly int maxClaim = 100;
-
-        private readonly CasinoController _casinoController;
         
-        public Claim(CasinoController casinoController = null) {
-            _casinoController = casinoController ?? CasinoController.Instance;
-        }
-
+        public Claim(CasinoController casinoController = null) : base(casinoController) { }
+        
         public void ResetAllClaims()
         {
             claims.Clear();

@@ -1,7 +1,4 @@
-﻿﻿using System;
-using System.Collections.Generic;
-
-namespace _BotName.Source.Casino.Currency
+﻿namespace _BotName.Source.Casino.Currency
 {
     public enum GiveError
     {
@@ -18,17 +15,9 @@ namespace _BotName.Source.Casino.Currency
         public int Amount;
     }
 
-    public class Give
+    public class Give: AbstractCasinoUtility
     {
-        private Dictionary<ulong, DateTime> claims = new Dictionary<ulong, DateTime>();
-        private readonly int minClaim = 1;
-        private readonly int maxClaim = 100;
-
-        private readonly CasinoController _casinoController;
-        
-        public Give(CasinoController casinoController = null) {
-            _casinoController = casinoController ?? CasinoController.Instance;
-        }
+        public Give(CasinoController casinoController = null) : base(casinoController) { }
         
         public GiveResult GiveMoney(ulong senderUserId, ulong receiverUserId, int amount)
         {
@@ -47,9 +36,8 @@ namespace _BotName.Source.Casino.Currency
             
             CasinoUser casinoUserGetter = _casinoController.GetCasinoUserRepository().FindOrCreateById(receiverUserId);
 
-            casinoUserGiver.Money -= amount;
-            casinoUserGetter.Money += amount;
-
+            casinoUserGiver.SubtractMoney(amount);
+            casinoUserGetter.AddMoney(amount);
             _casinoController.Save();
 
             result.Status = GiveError.Okay;

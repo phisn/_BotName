@@ -9,6 +9,16 @@ namespace _BotName.Source.Casino
     public class CasinoUser
     {
         public int Money = 100;
+
+        public void AddMoney(int amount)
+        {
+            Money += amount;
+        }
+
+        public void SubtractMoney(int amount)
+        {
+            Money -= amount;
+        }
     }
 
     public class CasinoController

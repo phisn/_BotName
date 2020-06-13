@@ -1,17 +1,15 @@
 namespace _BotName.Source.Casino.Shop
 {
-   public class ShopOrder
+   public class ShopOrder: AbstractCasinoUtility
    {
         private readonly DiscordUtility _discordUtility;
-        private readonly CasinoController _controller;
         private readonly ulong _userId;
         private readonly string _roleName;
         
-        public ShopOrder(ulong userId, string roleName, DiscordUtility discordUtility = null, CasinoController controller = null) {
+        public ShopOrder(ulong userId, string roleName, DiscordUtility discordUtility = null, CasinoController controller = null) : base(controller) {
             _roleName = roleName;
             _userId = userId;
             _discordUtility = discordUtility ?? DiscordUtility.Instance;
-            _controller = controller ?? CasinoController.Instance;
         }
 
         public ShopError perform()
@@ -32,13 +30,13 @@ namespace _BotName.Source.Casino.Shop
             }
             
             casinoUser.Money -= price;
-            _controller.Save();
+            _casinoController.Save();
             return ShopError.Okay;
         }
 
         protected CasinoUser GetCasinoUser()
         {
-            return _controller.GetCasinoUserRepository().FindOrCreateById(_userId);
+            return _casinoController.GetCasinoUserRepository().FindOrCreateById(_userId);
         }
 
         public int GetPrice()
