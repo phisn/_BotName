@@ -1,43 +1,42 @@
 ﻿using Discord;
 using Discord.Commands;
-using Discord.WebSocket;
-using System;
-using System.Linq;
 using System.Threading.Tasks;
+using _BotName.Source.CasinoLogic.Shop;
 
 namespace _BotName.Source.Casino
 {
 	[Group("casino")]
 	public class CasinoShop : ModuleBase<SocketCommandContext>
 	{
-		private static int price_lucky = 10000;
-
 		[Command("buy lucky")]
-		public Task GiveAsync(IUser user = null)
+		public Task BuyRoleLuckyAsync(IUser user = null)
 		{
+			return BuyRole("Lucky", user);
+		}
+
+		protected Task BuyRole(string roleName, IUser user = null)
+		{
+			
 			user = user ?? Context.User;
-			CasinoUser casinoUser = CasinoController.Instance.GetUser(user.Id);
 
-			if (casinoUser.Money <= price_lucky)
-				return ReplyAsync($"Not enough money, lucky costs {price_lucky} ₩");
-
-			try
+			ShopOrder order = new ShopOrder(user.Id, roleName);
+			ShopError orderResult = order.perform();
+			if (orderResult != ShopError.Okay)
 			{
-				SocketRole luckyRole = Context.Guild.Roles.First(role => role.Name == "Lucky");
-				IGuildUser guildUser = (IGuildUser)user;
-
-				guildUser.AddRoleAsync(luckyRole).GetAwaiter().GetResult();
-
-				casinoUser.Money -= price_lucky;
-				CasinoController.Instance.Save();
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine($"Failed to buy role lucky: {e.Message}");
-				return ReplyAsync("Failed to buy role lucky");
+				switch (orderResult)
+				{
+					case ShopError.NotEnoughMoney:
+						return ReplyAsync($"Not enough money. The role costs {order.GetPrice()} ₩");
+					case ShopError.UnknownItem:
+						return ReplyAsync("Unknown item.");
+					case ShopError.RoleAwardError:
+						return ReplyAsync($"Failed to buy the role \"{roleName}\". Please try again later.");
+					default:
+						return ReplyAsync("Unknown error occured. Please contact the server administrator.");
+				}
 			}
 
-			return ReplyAsync($"You bought lucky for {price_lucky} ₩");
+			return ReplyAsync($"You bought the role \"{roleName}\" for {order.GetPrice()} ₩");
 		}
 	}
 }
