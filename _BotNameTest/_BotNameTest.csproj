@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Casino\Currency\CasinoClaimTest.cs" />
+    <Compile Include="Casino\Currency\GiveTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Casino\CasinoShopTest.cs" />
   </ItemGroup>
@@ -50,7 +51,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Nunit" Version="3.5.0" />
+    <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="Moq" Version="4.14.1" />
     <PackageReference Include="Discord.Net.Commands" Version="2.2.0" />
   </ItemGroup>

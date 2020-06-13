@@ -2,14 +2,13 @@ using _BotName.Source;
 using _BotName.Source.Casino;
 using _BotName.Source.Casino.Shop;
 using Moq;
-using NUnit.Framework;
+using Xunit;
 
 namespace _BotNameTest.Casino
 {
-    [TestFixture]
     public class ShopTest
     {
-        [Test]
+        [Fact]
         public void BuyRoleWithNotEnoughMoney()
         {
             var discordMock = new Mock<DiscordUtility>(true);
@@ -25,12 +24,12 @@ namespace _BotNameTest.Casino
             // Buy lucky role (price: 10000) when only having 100 money
             ShopOrder order = new ShopOrder(123, "Lucky", discordMock.Object, casinoMock.Object);
             ShopError orderResult = order.perform();
-            Assert.AreEqual(ShopError.NotEnoughMoney, orderResult);
+            Assert.Equal(ShopError.NotEnoughMoney, orderResult);
             discordMock.Verify(mock => mock.AddRole("Lucky", 123), Times.Never);
             casinoMock.Verify(mock => mock.Save(), Times.Never);
         }
         
-        [Test]
+        [Fact]
         public void BuyRoleWithEnoughMoney()
         {
             var discordMock = new Mock<DiscordUtility>(true);
@@ -46,12 +45,12 @@ namespace _BotNameTest.Casino
             // Buy lucky role (price: 10000) when only having 100 money
             ShopOrder order = new ShopOrder(123, "Lucky", discordMock.Object, casinoMock.Object);
             ShopError orderResult = order.perform();
-            Assert.AreEqual(ShopError.Okay, orderResult);
+            Assert.Equal(ShopError.Okay, orderResult);
             discordMock.Verify(mock => mock.AddRole("Lucky", 123), Times.Once);
             casinoMock.Verify(mock => mock.Save(), Times.Once);
         }
         
-        [Test]
+        [Fact]
         public void BuyRoleWithMoreThanEnoughMoney()
         {
             var discordMock = new Mock<DiscordUtility>(true);
@@ -67,12 +66,12 @@ namespace _BotNameTest.Casino
             // Buy lucky role (price: 10000) when only having 100 money
             ShopOrder order = new ShopOrder(123, "Lucky", discordMock.Object, casinoMock.Object);
             ShopError orderResult = order.perform();
-            Assert.AreEqual(ShopError.Okay, orderResult);
+            Assert.Equal(ShopError.Okay, orderResult);
             discordMock.Verify(mock => mock.AddRole("Lucky", 123), Times.Once);
             casinoMock.Verify(mock => mock.Save(), Times.Once);
         }
         
-        [Test]
+        [Fact]
         public void DiscordApiError()
         {
             var discordMock = new Mock<DiscordUtility>(true);
@@ -88,12 +87,12 @@ namespace _BotNameTest.Casino
             // Buy lucky role (price: 10000) when only having 100 money
             ShopOrder order = new ShopOrder(123, "Lucky", discordMock.Object, casinoMock.Object);
             ShopError orderResult = order.perform();
-            Assert.AreEqual(ShopError.RoleAwardError, orderResult);
+            Assert.Equal(ShopError.RoleAwardError, orderResult);
             discordMock.Verify(mock => mock.AddRole("Lucky", 123), Times.Once);
             casinoMock.Verify(mock => mock.Save(), Times.Never);
         }
         
-        [Test]
+        [Fact]
         public void BuyUnknownRole()
         {
             var discordMock = new Mock<DiscordUtility>(true);
@@ -108,7 +107,7 @@ namespace _BotNameTest.Casino
             // Buy lucky role (price: 10000) when only having 100 money
             ShopOrder order = new ShopOrder(123, "UnknownRole", discordMock.Object, casinoMock.Object);
             ShopError orderResult = order.perform();
-            Assert.AreEqual(ShopError.UnknownItem, orderResult);
+            Assert.Equal(ShopError.UnknownItem, orderResult);
             discordMock.Verify(mock => mock.AddRole(It.IsAny<string>(), 123), Times.Never);
             casinoMock.Verify(mock => mock.Save(), Times.Never);
         }
