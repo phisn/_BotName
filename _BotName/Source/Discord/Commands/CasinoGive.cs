@@ -2,6 +2,7 @@
 using Discord.Commands;
 using System.Threading.Tasks;
 using _BotName.Source.Casino;
+using _BotName.Source.Casino.Currency;
 
 namespace _BotName.Source.Discord.Commands
 {
@@ -20,30 +21,27 @@ namespace _BotName.Source.Discord.Commands
 			if (amount == null || user == null)
 				return ReplyAsync("Usage: give <amount> <user>");
 
-			if (amount.Value <= 0)
-				return ReplyAsync("Amount has to be over 0");
+			var giveResult = new Give().GiveMoney(Context.User.Id, user.Id, amount.Value);
 
-			CasinoUser casinoUserGiver = CasinoController.Instance.GetUser(Context.User.Id);
-
-			if (casinoUserGiver.Money < amount.Value)
-				return ReplyAsync("Not enough ₩");
-
-			CasinoUser casinoUserGetter = CasinoController.Instance.GetUser(user.Id);
-
-			casinoUserGiver.Money -= amount.Value;
-			casinoUserGetter.Money += amount.Value;
-
-			CasinoController.Instance.Save();
-
-			return ReplyAsync($"{Context.User.Username}#{Context.User.Discriminator} gave {user.Username}#{user.Discriminator} {amount} ₩");
+			switch (giveResult.Status)
+			{
+				case GiveError.Okay:
+					return ReplyAsync($"{Context.User.Username}#{Context.User.Discriminator} gave {user.Username}#{user.Discriminator} {amount} ₩");
+				case GiveError.AmountLessThanZero:
+					return ReplyAsync("Amount has to be over 0");
+				case GiveError.NotEnoughMoney:
+					return ReplyAsync("Not enough ₩");
+				default:
+					return ReplyAsync("Unknown error occured. Please contact an server administrator.");
+			}
 		}
 
 		[Command("reset")]
 		[RequireOwner]
-		public Task CheatAsync(IUser user = null)
+		public Task ResetAsync(IUser user = null)
 		{
 			user = user ?? Context.User;
-			CasinoUser casinoUser = CasinoController.Instance.GetUser(user.Id);
+			CasinoUser casinoUser = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(user.Id);
 
 			casinoUser.Money = 0;
 			CasinoController.Instance.Save();
@@ -59,7 +57,7 @@ namespace _BotName.Source.Discord.Commands
 				return ReplyAsync("Usage: cheat <amount> [user]");
 
 			user = user ?? Context.User;
-			CasinoUser casinoUser = CasinoController.Instance.GetUser(user.Id);
+			CasinoUser casinoUser = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(user.Id);
 
 			casinoUser.Money += amount.Value;
 			CasinoController.Instance.Save();
