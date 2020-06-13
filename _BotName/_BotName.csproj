@@ -118,8 +118,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Server\ServerAdjust.cs" />
     <Compile Include="Source\Server\ServerController.cs" />
-    <Compile Include="Source\Casino\CasinoController.cs" />
-    <Compile Include="Source\Casino\CasinoInfo.cs" />
     <Compile Include="Source\Server\ServerInfo.cs" />
   </ItemGroup>
   <ItemGroup>
