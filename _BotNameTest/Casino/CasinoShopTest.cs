@@ -14,8 +14,12 @@ namespace _BotNameTest.Casino
         {
             var discordMock = new Mock<DiscordUtility>(true);
             discordMock.Setup(d => d.AddRole("Lucky", 123)).Returns(true);
+            
+            var casinoUserRepoMock = new Mock<CasinoUserRepository>();
+            casinoUserRepoMock.Setup(c => c.FindOrCreateById(123)).Returns(new CasinoUser { Money = 100 });
+            
             var casinoMock = new Mock<CasinoController>(true);
-            casinoMock.Setup(c => c.GetUser(123)).Returns(new CasinoUser { Money = 100 });
+            casinoMock.Setup(c => c.GetCasinoUserRepository()).Returns(casinoUserRepoMock.Object);
             casinoMock.Setup(c => c.Initialize());
             
             // Buy lucky role (price: 10000) when only having 100 money
@@ -31,8 +35,12 @@ namespace _BotNameTest.Casino
         {
             var discordMock = new Mock<DiscordUtility>(true);
             discordMock.Setup(d => d.AddRole("Lucky", 123)).Returns(true);
+            
+            var casinoUserRepoMock = new Mock<CasinoUserRepository>();
+            casinoUserRepoMock.Setup(c => c.FindOrCreateById(123)).Returns(new CasinoUser { Money = 10000 });
+            
             var casinoMock = new Mock<CasinoController>(true);
-            casinoMock.Setup(c => c.GetUser(123)).Returns(new CasinoUser { Money = 10000 });
+            casinoMock.Setup(c => c.GetCasinoUserRepository()).Returns(casinoUserRepoMock.Object);
             casinoMock.Setup(c => c.Initialize());
             
             // Buy lucky role (price: 10000) when only having 100 money
@@ -48,8 +56,12 @@ namespace _BotNameTest.Casino
         {
             var discordMock = new Mock<DiscordUtility>(true);
             discordMock.Setup(d => d.AddRole("Lucky", 123)).Returns(true);
+            
+            var casinoUserRepoMock = new Mock<CasinoUserRepository>();
+            casinoUserRepoMock.Setup(c => c.FindOrCreateById(123)).Returns(new CasinoUser { Money = 10001 });
+            
             var casinoMock = new Mock<CasinoController>(true);
-            casinoMock.Setup(c => c.GetUser(123)).Returns(new CasinoUser { Money = 10001 });
+            casinoMock.Setup(c => c.GetCasinoUserRepository()).Returns(casinoUserRepoMock.Object);
             casinoMock.Setup(c => c.Initialize());
             
             // Buy lucky role (price: 10000) when only having 100 money
@@ -66,7 +78,11 @@ namespace _BotNameTest.Casino
             var discordMock = new Mock<DiscordUtility>(true);
             discordMock.Setup(d => d.AddRole("Lucky", 123)).Returns(false);
             var casinoMock = new Mock<CasinoController>(true);
-            casinoMock.Setup(c => c.GetUser(123)).Returns(new CasinoUser { Money = 10000 });
+            
+            var casinoUserRepoMock = new Mock<CasinoUserRepository>();
+            casinoUserRepoMock.Setup(c => c.FindOrCreateById(123)).Returns(new CasinoUser { Money = 10000 });
+
+            casinoMock.Setup(c => c.GetCasinoUserRepository()).Returns(casinoUserRepoMock.Object);
             casinoMock.Setup(c => c.Initialize());
             
             // Buy lucky role (price: 10000) when only having 100 money
@@ -82,7 +98,11 @@ namespace _BotNameTest.Casino
         {
             var discordMock = new Mock<DiscordUtility>(true);
             var casinoMock = new Mock<CasinoController>(true);
-            casinoMock.Setup(c => c.GetUser(123)).Returns(new CasinoUser { Money = 100 });
+            
+            var casinoUserRepoMock = new Mock<CasinoUserRepository>();
+            casinoUserRepoMock.Setup(c => c.FindOrCreateById(123)).Returns(new CasinoUser { Money = 100 });
+            
+            casinoMock.Setup(c => c.GetCasinoUserRepository()).Returns(casinoUserRepoMock.Object);
             casinoMock.Setup(c => c.Initialize());
             
             // Buy lucky role (price: 10000) when only having 100 money

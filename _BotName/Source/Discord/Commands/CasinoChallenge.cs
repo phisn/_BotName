@@ -68,12 +68,12 @@ namespace _BotName.Source.Discord.Commands
 
 			challenges.Remove(user.Id);
 
-			CasinoUser casinoUserChallenged = CasinoController.Instance.GetUser(Context.User.Id);
+			CasinoUser casinoUserChallenged = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(Context.User.Id);
 
 			if (casinoUserChallenged.Money < challenge.amount)
 				return ReplyAsync("You do no longer have enough ₩");
 
-			CasinoUser casinoUserChallenger = CasinoController.Instance.GetUser(user.Id);
+			CasinoUser casinoUserChallenger = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(user.Id);
 
 			if (casinoUserChallenger.Money < challenge.amount)
 				return ReplyAsync($"{user.Username}#{user.Discriminator} has no longer enough ₩");
@@ -139,12 +139,12 @@ namespace _BotName.Source.Discord.Commands
 			if (challenges.ContainsKey(Context.User.Id))
 				return ReplyAsync($"You already challenged {user.Username}#{user.Discriminator}");
 
-			CasinoUser casinoUserChallenger = CasinoController.Instance.GetUser(Context.User.Id);
+			CasinoUser casinoUserChallenger = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(Context.User.Id);
 
 			if (casinoUserChallenger.Money < amount.Value)
 				return ReplyAsync("Not enough ₩");
 
-			CasinoUser casinoUserChallenged = CasinoController.Instance.GetUser(user.Id);
+			CasinoUser casinoUserChallenged = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(user.Id);
 
 			if (casinoUserChallenged.Money < amount.Value)
 				return ReplyAsync($"{user.Username}#{user.Discriminator} has not enough ₩");
@@ -163,12 +163,12 @@ namespace _BotName.Source.Discord.Commands
 			if (amount == null || user == null)
 				return ReplyAsync("Usage: give <amount> <user<");
 
-			CasinoUser casinoUserGiver = CasinoController.Instance.GetUser(Context.User.Id);
+			CasinoUser casinoUserGiver = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(Context.User.Id);
 
 			if (casinoUserGiver.Money <= amount.Value)
 				return ReplyAsync("Not enough ₩");
 
-			CasinoUser casinoUserGetter = CasinoController.Instance.GetUser(user.Id);
+			CasinoUser casinoUserGetter = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(user.Id);
 
 			casinoUserGiver.Money -= amount.Value;
 			casinoUserGetter.Money += amount.Value;

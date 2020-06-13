@@ -57,7 +57,7 @@ All commands need the {CommandHandler.Prefix}casino prefix
 		public Task QueryAsync(IUser user = null)
 		{
 			user = user ?? Context.User;
-			CasinoUser casinoUser = CasinoController.Instance.GetUser(user.Id);
+			CasinoUser casinoUser = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(user.Id);
 
 			StringBuilder stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine($"User: {user.Username}#{user.Discriminator}");

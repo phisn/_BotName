@@ -22,7 +22,7 @@ namespace _BotName.Source.Discord.Commands
 		[Alias("flip all", "coin max", "flip max")]
 		public Task CoinAllAsync(string mode = null)
 		{
-			CasinoUser user = CasinoController.Instance.GetUser(Context.User.Id);
+			CasinoUser user = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(Context.User.Id);
 
 			if (user.Money == 0)
 				return ReplyAsync("You don't have any ₩");
@@ -45,7 +45,7 @@ namespace _BotName.Source.Discord.Commands
 			if (coinSide == null)
 				return ReplyAsync("First argument has to be either 'head' or 'tail'");
 
-			CasinoUser user = CasinoController.Instance.GetUser(Context.User.Id);
+			CasinoUser user = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(Context.User.Id);
 
 			if (user.Money < amount)
 				return ReplyAsync("You don't have enough money");
@@ -81,7 +81,7 @@ namespace _BotName.Source.Discord.Commands
 			if (amount <= 0)
 				return ReplyAsync("Amount has to be over 0");
 
-			CasinoUser user = CasinoController.Instance.GetUser(Context.User.Id);
+			CasinoUser user = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(Context.User.Id);
 
 			if (user.Money < amount)
 				return ReplyAsync("You don't have enough money");

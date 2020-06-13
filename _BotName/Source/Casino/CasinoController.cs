@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -12,17 +11,6 @@ namespace _BotName.Source.Casino
         public int Money = 100;
     }
 
-    [Serializable]
-    public class CasinoContainer
-    {
-        public Dictionary<ulong, CasinoUser> casinoUsers;
-
-        public CasinoContainer()
-        {
-            casinoUsers = new Dictionary<ulong, CasinoUser>();
-        }
-    }
-
     public class CasinoController
     {
         public static CasinoController Instance { get { return lazy.Value; } }
@@ -30,9 +18,9 @@ namespace _BotName.Source.Casino
             new Lazy<CasinoController>(() => new CasinoController(true));
 
         private static string filename = "casino.bin";
-        private CasinoContainer casinoContainer;
 
-        
+        private CasinoUserRepository _casinoUserRepository;
+
         /**
          * Do not use this constructor directly. Please use .Instance property.
          */
@@ -52,7 +40,7 @@ namespace _BotName.Source.Casino
             {
                 if (!File.Exists(filename))
                 {
-                    casinoContainer = new CasinoContainer();
+                    _casinoUserRepository = new CasinoUserRepository();
                     Save();
                 }
                 else
@@ -63,7 +51,7 @@ namespace _BotName.Source.Casino
                         FileAccess.Read))
                     {
                         IFormatter formatter = new BinaryFormatter();
-                        casinoContainer = (CasinoContainer)formatter.Deserialize(stream);
+                        _casinoUserRepository = (CasinoUserRepository)formatter.Deserialize(stream);
                     }
                 }
             }
@@ -74,17 +62,9 @@ namespace _BotName.Source.Casino
             }
         }
 
-        public virtual CasinoUser GetUser(ulong userID)
+        public virtual CasinoUserRepository GetCasinoUserRepository()
         {
-            CasinoUser casinoUser;
-
-            if (!casinoContainer.casinoUsers.TryGetValue(userID, out casinoUser))
-            {
-                casinoUser = new CasinoUser();
-                casinoContainer.casinoUsers.Add(userID, casinoUser);
-            }
-
-            return casinoUser;
+            return _casinoUserRepository;
         }
 
         public virtual void Save()
@@ -97,7 +77,7 @@ namespace _BotName.Source.Casino
                     FileAccess.ReadWrite))
                 {
                     IFormatter formatter = new BinaryFormatter();
-                    formatter.Serialize(stream, casinoContainer);
+                    formatter.Serialize(stream, _casinoUserRepository);
                 }
             }
             catch (Exception exception)

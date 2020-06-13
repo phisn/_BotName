@@ -113,7 +113,7 @@ namespace _BotName.Source.Discord.Commands
 			if (count > slot_quick_count_max)
 				return ReplyAsync($"Count has to be under {slot_quick_count_max}");
 
-			CasinoUser user = CasinoController.Instance.GetUser(Context.User.Id);
+			CasinoUser user = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(Context.User.Id);
 
 			if (user.Money < amount * count.Value)
 				return ReplyAsync("You don't have enough ₩");
@@ -182,7 +182,7 @@ namespace _BotName.Source.Discord.Commands
 			if (amount <= 0)
 				return ReplyAsync("Amount has to be over 0");
 
-			CasinoUser user = CasinoController.Instance.GetUser(Context.User.Id);
+			CasinoUser user = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(Context.User.Id);
 
 			if (user.Money < amount)
 				return ReplyAsync("You don't have enough ₩");

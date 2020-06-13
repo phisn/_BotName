@@ -53,7 +53,7 @@ namespace _BotName.Source.Casino.Currency
 
             var claimedMoney = new Random().Next(minClaim, maxClaim + 1);
 
-            _casinoController.GetUser(userId).Money += claimedMoney;
+            _casinoController.GetCasinoUserRepository().FindOrCreateById(userId).Money += claimedMoney;
             _casinoController.Save();
 
             result.Status = ClaimError.Okay;

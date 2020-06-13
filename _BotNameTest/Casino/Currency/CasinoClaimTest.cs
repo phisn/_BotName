@@ -13,7 +13,9 @@ namespace _BotNameTest.Casino.Currency
         public void ClaimAndTestCooldown()
         {
             var casinoMock = new Mock<CasinoController>(true);
-            casinoMock.Setup(c => c.GetUser(123)).Returns(new CasinoUser { Money = 100 });
+            var casinoUserRepoMock = new Mock<CasinoUserRepository>();
+            casinoUserRepoMock.Setup(c => c.FindOrCreateById(123)).Returns(new CasinoUser { Money = 100 });
+            casinoMock.Setup(c => c.GetCasinoUserRepository()).Returns(casinoUserRepoMock.Object);
             casinoMock.Setup(c => c.Initialize());
             
             var order = new Claim(casinoMock.Object);
@@ -38,7 +40,10 @@ namespace _BotNameTest.Casino.Currency
         {
             var casinoMock = new Mock<CasinoController>(true);
             var casinoUser = new CasinoUser {Money = 100};
-            casinoMock.Setup(c => c.GetUser(123)).Returns(casinoUser);
+            
+            var casinoUserRepoMock = new Mock<CasinoUserRepository>();
+            casinoUserRepoMock.Setup(c => c.FindOrCreateById(123)).Returns(casinoUser);
+            casinoMock.Setup(c => c.GetCasinoUserRepository()).Returns(casinoUserRepoMock.Object);
             casinoMock.Setup(c => c.Initialize());
             
             Claim order = new Claim(casinoMock.Object);

@@ -38,7 +38,7 @@ namespace _BotName.Source.Casino.Shop
 
         protected CasinoUser GetCasinoUser()
         {
-            return _controller.GetUser(_userId);
+            return _controller.GetCasinoUserRepository().FindOrCreateById(_userId);
         }
 
         public int GetPrice()

@@ -98,10 +98,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Source\Casino\CasinoController.cs" />
+    <Compile Include="Source\Casino\CasinoUserRepository.cs" />
     <Compile Include="Source\Casino\Currency\Claim.cs" />
+    <Compile Include="Source\Casino\Currency\Give.cs" />
     <Compile Include="Source\Casino\Shop\ShopOrder.cs" />
     <Compile Include="Source\Casino\Shop\ShopError.cs" />
     <Compile Include="Source\CommandHandler.cs" />
+    <Compile Include="Source\Core\AbstractVolatileRepository.cs" />
     <Compile Include="Source\DiscordUtility.cs" />
     <Compile Include="Source\Discord\Commands\CasinoChallenge.cs" />
     <Compile Include="Source\Discord\Commands\CasinoClaim.cs" />
