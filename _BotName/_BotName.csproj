@@ -98,7 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Source\Casino\CasinoController.cs" />
-    <Compile Include="Source\Casino\Claim.cs" />
+    <Compile Include="Source\Casino\Currency\Claim.cs" />
     <Compile Include="Source\Casino\Shop\ShopOrder.cs" />
     <Compile Include="Source\Casino\Shop\ShopError.cs" />
     <Compile Include="Source\CommandHandler.cs" />

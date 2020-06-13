@@ -1,9 +1,10 @@
 using System;
 using _BotName.Source.Casino;
+using _BotName.Source.Casino.Currency;
 using Moq;
 using NUnit.Framework;
 
-namespace _BotNameTest.CasinoLogic
+namespace _BotNameTest.Casino.Currency
 {
     [TestFixture]
     public class ClaimTest

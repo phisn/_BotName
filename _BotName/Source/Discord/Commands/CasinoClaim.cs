@@ -1,6 +1,6 @@
 ﻿using Discord.Commands;
 using System.Threading.Tasks;
-using _BotName.Source.Casino;
+using _BotName.Source.Casino.Currency;
 
 namespace _BotName.Source.Discord.Commands
 {

@@ -1,10 +1,10 @@
 using _BotName.Source;
-using _BotName.Source.CasinoLogic;
-using _BotName.Source.CasinoLogic.Shop;
+using _BotName.Source.Casino;
+using _BotName.Source.Casino.Shop;
 using Moq;
 using NUnit.Framework;
 
-namespace _BotNameTest.CasinoLogic
+namespace _BotNameTest.Casino
 {
     [TestFixture]
     public class ShopTest

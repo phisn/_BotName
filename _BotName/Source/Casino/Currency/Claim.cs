@@ -1,7 +1,7 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 
-namespace _BotName.Source.Casino
+namespace _BotName.Source.Casino.Currency
 {
     public enum ClaimError
     {
