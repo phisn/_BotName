@@ -16,6 +16,7 @@ namespace _BotName.Source.Discord.Commands
 		}
 
 		[Command("give")]
+		[Summary("Give someone a amount of money")]
 		public Task GiveAsync(int? amount, IUser user = null)
 		{
 			if (amount == null || user == null)

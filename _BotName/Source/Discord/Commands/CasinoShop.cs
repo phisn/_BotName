@@ -9,6 +9,7 @@ namespace _BotName.Source.Discord.Commands
 	public class CasinoShop : ModuleBase<SocketCommandContext>
 	{
 		[Command("buy lucky")]
+		[Summary("Buy the lucky role for 10000 ₩")]
 		public Task BuyRoleLuckyAsync(IUser user = null)
 		{
 			return BuyRole("Lucky", user);

@@ -19,19 +19,19 @@ namespace _BotName.Source.Casino.Currency
     
     public class Claim: AbstractCasinoUtility
     {
-        private Dictionary<ulong, DateTime> claims = new Dictionary<ulong, DateTime>();
-        private readonly int minClaim = 1;
-        private readonly int maxClaim = 100;
-        
+        private readonly Dictionary<ulong, DateTime> _claims = new Dictionary<ulong, DateTime>();
+        private const int MinClaim = 1;
+        private const int MaxClaim = 100;
+
         public void ResetAllClaims()
         {
-            claims.Clear();
+            _claims.Clear();
         }
         
         public ClaimResult ClaimMoney(ulong userId, bool ignoreCooldown = false)
         {
-            ClaimResult result = new ClaimResult();
-            DateTime nextClaimTime = GetNextClaimTime(userId);
+            var result = new ClaimResult();
+            var nextClaimTime = GetNextClaimTime(userId);
             if (nextClaimTime > DateTime.Now && !ignoreCooldown)
             {
                 result.Status = ClaimError.Cooldown;
@@ -39,13 +39,13 @@ namespace _BotName.Source.Casino.Currency
                 return result;
             }
 
-            if (claims.ContainsKey(userId)) {
-                claims[userId] = DateTime.Now;
+            if (_claims.ContainsKey(userId)) {
+                _claims[userId] = DateTime.Now;
             } else { 
-                claims.Add(userId, DateTime.Now);
+                _claims.Add(userId, DateTime.Now);
             }
 
-            var claimedMoney = new Random().Next(minClaim, maxClaim + 1);
+            var claimedMoney = new Random().Next(MinClaim, MaxClaim + 1);
 
             var userRepository = _casinoController.GetCasinoUserRepository();
             var user = userRepository.FindOrCreateById(userId);
@@ -53,16 +53,16 @@ namespace _BotName.Source.Casino.Currency
 
             result.Status = ClaimError.Okay;
             result.ClaimedAmount = claimedMoney;
-            result.NextClaimTime = calculateNextClaimTime(claims[userId]);
+            result.NextClaimTime = CalculateNextClaimTime(_claims[userId]);
             return result;
         }
 
-        public DateTime GetNextClaimTime(ulong userId)
+        private DateTime GetNextClaimTime(ulong userId)
         {
-            return !claims.TryGetValue(userId, out var lastClaim) ? DateTime.Now : calculateNextClaimTime(lastClaim);
+            return !_claims.TryGetValue(userId, out var lastClaim) ? DateTime.Now : CalculateNextClaimTime(lastClaim);
         }
 
-        protected DateTime calculateNextClaimTime(DateTime lastClaim)
+        private DateTime CalculateNextClaimTime(DateTime lastClaim)
         {
             return lastClaim.AddHours(1);
         }

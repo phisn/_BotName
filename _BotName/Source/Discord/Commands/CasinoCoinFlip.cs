@@ -32,6 +32,7 @@ namespace _BotName.Source.Discord.Commands
 
 		[Command("coin")]
 		[Alias("flip")]
+		[Summary("Flip a coin and maybe double your money")]
 		public Task CoinAsync(string mode = null, int? amount = null)
 		{
 			if (mode == null || amount == null)
@@ -72,6 +73,7 @@ namespace _BotName.Source.Discord.Commands
 		}
 
 		[Command("dice")]
+		[Summary("Throw a dice and sextuple your money")]
 		[Alias("throw")]
 		public Task QueryAsync(int number = 0, int? amount = null)
 		{

@@ -20,6 +20,7 @@ namespace _BotName.Source.Discord.Commands
 		private static Dictionary<ulong, Dictionary<ulong, Challenge>> allChallenges = new Dictionary<ulong, Dictionary<ulong, Challenge>>();
 
 		[Command("challenge info")]
+		[Summary("Get the info about all your challenges Or info about your challenges to someone Or info about challenges from someone to you")]
 		public Task InfoAsync(IUser user = null)
 		{
 			Dictionary<ulong, Challenge> challenges = EmplaceChallenges(Context.User.Id);
@@ -55,6 +56,7 @@ namespace _BotName.Source.Discord.Commands
 		}
 
 		[Command("challenge accept")]
+		[Summary("Accept a challenge from someone")]
 		public Task AcceptAsync(IUser user = null)
 		{
 			if (user == null)
@@ -68,12 +70,14 @@ namespace _BotName.Source.Discord.Commands
 
 			challenges.Remove(user.Id);
 
-			CasinoUser casinoUserChallenged = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(Context.User.Id);
+			var casinoUserRepository = CasinoController.Instance.GetCasinoUserRepository();
+			
+			CasinoUser casinoUserChallenged = casinoUserRepository.FindOrCreateById(Context.User.Id);
 
 			if (casinoUserChallenged.Money < challenge.amount)
 				return ReplyAsync("You do no longer have enough ₩");
 
-			CasinoUser casinoUserChallenger = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(user.Id);
+			CasinoUser casinoUserChallenger = casinoUserRepository.FindOrCreateById(user.Id);
 
 			if (casinoUserChallenger.Money < challenge.amount)
 				return ReplyAsync($"{user.Username}#{user.Discriminator} has no longer enough ₩");
@@ -98,15 +102,14 @@ namespace _BotName.Source.Discord.Commands
 				loser = user;
 			}
 
-			casinoWinner.Money += challenge.amount;
-			casinoLoser.Money -= challenge.amount;
-
-			//CasinoController.Instance.Save();
+			casinoUserRepository.AddMoney(casinoWinner, challenge.amount);
+			casinoUserRepository.SubtractMoney(casinoLoser, challenge.amount);
 
 			return ReplyAsync($"{winner.Username}#{winner.Discriminator} won from {loser.Username}#{loser.Discriminator} {challenge.amount} ₩");
 		}
 
 		[Command("challenge decline")]
+		[Summary("Decline a challenge from someone or decline all your challenges")]
 		public Task DeclineAsync(IUser user = null)
 		{
 			Dictionary<ulong, Challenge> challenges = EmplaceChallenges(Context.User.Id);
@@ -126,6 +129,7 @@ namespace _BotName.Source.Discord.Commands
 		}
 
 		[Command("challenge")]
+		[Summary("Challange someone and maybe win his money")]
 		public Task ChallengeAsync(IUser user = null, int? amount = null)
 		{
 			if (amount == null || user == null)

@@ -99,6 +99,7 @@ namespace _BotName.Source.Discord.Commands
 		private Random random = new Random();
 
 		[Command("slot quick")]
+		[Summary("Play slot machine count times quickly")]
 		public Task SlotQuickAsync(int? count = null, int? amount = null)
 		{
 			if (amount == null)
@@ -174,6 +175,7 @@ namespace _BotName.Source.Discord.Commands
 
 
 		[Command("slot")]
+		[Summary("Use a slot machine and get up to 200x your money.")]
 		public Task SlotAsync(int? amount = null)
 		{
 			if (amount == null)
@@ -228,6 +230,7 @@ namespace _BotName.Source.Discord.Commands
 		}
 
 		[Command("slot info")]
+		[Summary("For more information about slot wins")]
 		public Task QueryAsync()
 		{
 			return ReplyAsync(

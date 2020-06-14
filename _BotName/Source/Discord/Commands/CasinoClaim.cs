@@ -10,9 +10,10 @@ namespace _BotName.Source.Discord.Commands
 		static Claim claim = new Claim();
 		
 		[Command("claim")]
+		[Summary("Claim your hourly money between 1 and 100")]
 		public Task ClaimAsync()
 		{
-			ClaimResult claimResult = claim.ClaimMoney(Context.User.Id);
+			var claimResult = claim.ClaimMoney(Context.User.Id);
 
 			switch (claimResult.Status)
 			{

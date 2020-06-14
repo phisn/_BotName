@@ -1,4 +1,6 @@
-﻿using Discord;
+﻿using System;
+using System.Collections.Generic;
+using Discord;
 using Discord.Commands;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,47 +14,39 @@ namespace _BotName.Source.Discord.Commands
 		[Alias("casino help")]
 		public Task InfoAsync()
 		{
+
+			var commandService = Program.GetCommandService();
+			var commandText = "";
+			foreach (var command in commandService.Commands)
+			{
+				var parameters = new List<string>();
+				foreach (var param in command.Parameters)
+				{
+					if (param.IsOptional)
+					{
+						parameters.Add("<" + param.Name + ">");
+					}
+					else
+					{
+						parameters.Add("[" + param.Name + "]");
+					}
+				}
+
+				//	commandText += string.Format("> {0} {1}{3}{2}{3}", command.Name, command.Parameters.ToString(), command.Summary, Environment.NewLine);
+				commandText += string.Format("> {0} {1}{3}{2} {3}", command.Name, string.Join(" ", parameters.ToArray()), command.Summary??"???", Environment.NewLine);
+			}
+			
 			return ReplyAsync(
 $@"**Casino Commands**:
-All commands need the {CommandHandler.Prefix}casino prefix
-₩ for _waehrungname
+All commands need the {CommandHandler.Prefix} casino prefix
+(₩ = _Waehrungname)
 ```
-> info [user]
-  Get information about a user or yourself.
-> give <user> <amount>
-  Give someone a amount of money
-> claim
-  Claim your hourly money between 1 and 100
-> coin <head/tail> <amount>
-  Flip a coin and maybe double your money
-> dice <1 - 6> <amount>
-  Throw a dice and sextuple your money
-> slot <amount>
-  Use a slot machine and get up to 200x
-  your money.
->> slot info
-   For more information about slot wins
->> slot quick <count (< 100)> <amount>
-   Play slot machine count times quickly
-> challange <user> <amount>
-  Challange someone and maybe win his money
->> challange info [user]
-   Get the info about all your challanges
-   Or info about your challanges to someone
-   Or info about challanges from someone to you
->> challange accept <user>
-   Accept a challange from someone
->> challange decline [user]
-   Decline a challange from someone
-   Or decline all your challanges
-> buy <item>
-  Buy a item for casino money
->> buy lucky
-   Buy the lucky role for 10000 ₩
+{commandText}
 ```");
 		}
 
 		[Command("casino info")]
+		[Summary("Get information about a user or yourself")]
 		[Alias("casinoinfo")]
 		public Task QueryAsync(IUser user = null)
 		{

@@ -28,25 +28,28 @@ namespace _BotName.Source
 			return File.ReadAllText(path);
 		}
 
-		private CommandHandler commandHandler;
-		private CommandService commandService;
-		private DiscordSocketClient client;
+		private CommandHandler _commandHandler;
+		private static CommandService _commandService;
+		private DiscordSocketClient _client;
+
+		public static CommandService GetCommandService()
+		{
+			return _commandService;
+		}
 
 		public async Task MainAsync(string token)
 		{
-			client = new DiscordSocketClient(CreateDiscordSocketConfig());
-			commandService = new CommandService(CreateCommandServiceConfig());
+			_client = new DiscordSocketClient(CreateDiscordSocketConfig());
+			_commandService = new CommandService(CreateCommandServiceConfig());
 
-			client.Log += Log;
+			_client.Log += Log;
 
-			await client.LoginAsync(TokenType.Bot, token);
-			await client.StartAsync();
+			await _client.LoginAsync(TokenType.Bot, token);
+			await _client.StartAsync();
 
-			commandHandler = new CommandHandler(
-				client,
-				commandService);
+			_commandHandler = new CommandHandler(_client, _commandService);
 
-			await commandHandler.InstallCommandsAsync();
+			await _commandHandler.InstallCommandsAsync();
 
 			// Block this task until the program is closed.
 			await Task.Delay(-1);
