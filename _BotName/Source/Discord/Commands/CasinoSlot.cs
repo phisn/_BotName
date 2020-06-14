@@ -2,13 +2,12 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
+using _BotName.Source.Casino;
 
-namespace _BotName.Source.Casino
+namespace _BotName.Source.Discord.Commands
 {
 	enum SlotSymbol
 	{
@@ -100,6 +99,7 @@ namespace _BotName.Source.Casino
 		private Random random = new Random();
 
 		[Command("slot quick")]
+		[Summary("Play slot machine count times quickly")]
 		public Task SlotQuickAsync(int? count = null, int? amount = null)
 		{
 			if (amount == null)
@@ -114,7 +114,7 @@ namespace _BotName.Source.Casino
 			if (count > slot_quick_count_max)
 				return ReplyAsync($"Count has to be under {slot_quick_count_max}");
 
-			CasinoUser user = CasinoController.Instance.GetUser(Context.User.Id);
+			CasinoUser user = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(Context.User.Id);
 
 			if (user.Money < amount * count.Value)
 				return ReplyAsync("You don't have enough ₩");
@@ -152,7 +152,7 @@ namespace _BotName.Source.Casino
 				user.Money += money;
 			}
 
-			CasinoController.Instance.Save();
+			// CasinoController.Instance.Save();
 
 			if (highestWin == SlotWin.Bar)
 			{
@@ -175,6 +175,7 @@ namespace _BotName.Source.Casino
 
 
 		[Command("slot")]
+		[Summary("Use a slot machine and get up to 200x your money.")]
 		public Task SlotAsync(int? amount = null)
 		{
 			if (amount == null)
@@ -183,7 +184,7 @@ namespace _BotName.Source.Casino
 			if (amount <= 0)
 				return ReplyAsync("Amount has to be over 0");
 
-			CasinoUser user = CasinoController.Instance.GetUser(Context.User.Id);
+			CasinoUser user = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(Context.User.Id);
 
 			if (user.Money < amount)
 				return ReplyAsync("You don't have enough ₩");
@@ -208,7 +209,7 @@ namespace _BotName.Source.Casino
 				user.Money += (multi - 1) * amount.Value;
 			}
 
-			CasinoController.Instance.Save();
+			// CasinoController.Instance.Save();
 
 			if (win == SlotWin.Bar)
 			{
@@ -229,6 +230,7 @@ namespace _BotName.Source.Casino
 		}
 
 		[Command("slot info")]
+		[Summary("For more information about slot wins")]
 		public Task QueryAsync()
 		{
 			return ReplyAsync(
