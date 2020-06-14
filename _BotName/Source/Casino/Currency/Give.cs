@@ -17,8 +17,6 @@
 
     public class Give: AbstractCasinoUtility
     {
-        public Give(CasinoController casinoController = null) : base(casinoController) { }
-        
         public GiveResult GiveMoney(ulong senderUserId, ulong receiverUserId, int amount)
         {
             var result = new GiveResult { Amount = amount, SenderUid = senderUserId, ReceiverUid = receiverUserId };
@@ -27,18 +25,18 @@
                 return result;
             }
             
-            CasinoUser casinoUserGiver = _casinoController.GetCasinoUserRepository().FindOrCreateById(senderUserId);
+            var userRepository = _casinoController.GetCasinoUserRepository();
+            CasinoUser casinoUserGiver = userRepository.FindOrCreateById(senderUserId);
             if (casinoUserGiver.Money < amount)
             {
                 result.Status = GiveError.NotEnoughMoney;
                 return result;
             }
             
-            CasinoUser casinoUserGetter = _casinoController.GetCasinoUserRepository().FindOrCreateById(receiverUserId);
+            CasinoUser casinoUserReceiver = userRepository.FindOrCreateById(receiverUserId);
 
-            casinoUserGiver.SubtractMoney(amount);
-            casinoUserGetter.AddMoney(amount);
-            _casinoController.Save();
+            userRepository.SubtractMoney(casinoUserGiver, amount);
+            userRepository.AddMoney(casinoUserReceiver, amount);
 
             result.Status = GiveError.Okay;
             return result;

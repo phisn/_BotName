@@ -10,17 +10,10 @@ namespace _BotName.Source
     {
         public static DiscordUtility Instance { get { return lazy.Value; } }
         private static readonly Lazy<DiscordUtility> lazy =
-            new Lazy<DiscordUtility>(() => new DiscordUtility(true));
+            new Lazy<DiscordUtility>(() => new DiscordUtility());
 
-        /**
-         * Do not use this constructor directly. Please use .Instance property.
-         */
-        public DiscordUtility(bool usedFactory = false)
+        protected DiscordUtility()
         {
-            if (!usedFactory)
-            {
-                throw new Exception("Please access singleton instance by .Instance property!");
-            }
         }
         
         public virtual bool AddRole(string roleName, ulong userId)

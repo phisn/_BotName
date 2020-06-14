@@ -2,14 +2,19 @@ namespace _BotName.Source.Casino.Shop
 {
    public class ShopOrder: AbstractCasinoUtility
    {
-        private readonly DiscordUtility _discordUtility;
+        private DiscordUtility _discordUtility;
         private readonly ulong _userId;
         private readonly string _roleName;
         
-        public ShopOrder(ulong userId, string roleName, DiscordUtility discordUtility = null, CasinoController controller = null) : base(controller) {
+        public ShopOrder(ulong userId, string roleName) {
             _roleName = roleName;
             _userId = userId;
-            _discordUtility = discordUtility ?? DiscordUtility.Instance;
+            _discordUtility = DiscordUtility.Instance;
+        }
+
+        public void OverrideDiscordUtility(DiscordUtility discordUtility)
+        {
+            _discordUtility = discordUtility;
         }
 
         public ShopError perform()
@@ -30,7 +35,7 @@ namespace _BotName.Source.Casino.Shop
             }
             
             casinoUser.Money -= price;
-            _casinoController.Save();
+            // _casinoController.Save();
             return ShopError.Okay;
         }
 

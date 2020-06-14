@@ -4,6 +4,8 @@ using Discord.WebSocket;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using _BotName.Source.Database;
+using LinqToDB.Data;
 
 namespace _BotName.Source
 {
@@ -13,10 +15,9 @@ namespace _BotName.Source
 		
 		public static void Main(string[] args)
 		{
-			string token = AquireToken(
-				args.Length == 2 
-				? args[2] 
-				: DefaultTokenFileName);
+			DataConnection.DefaultSettings = new DatabaseSettings();
+			
+			var token = AquireToken(args.Length == 2 ? args[2] : DefaultTokenFileName);
 
 			Console.WriteLine("Starting bot with '" + token + "'");
 			new Program().MainAsync(token).GetAwaiter().GetResult();

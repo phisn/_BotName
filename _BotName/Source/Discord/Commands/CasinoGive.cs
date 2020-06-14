@@ -44,7 +44,7 @@ namespace _BotName.Source.Discord.Commands
 			CasinoUser casinoUser = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(user.Id);
 
 			casinoUser.Money = 0;
-			CasinoController.Instance.Save();
+			// CasinoController.Instance.Save();
 
 			return ReplyAsync($"{user.Username}#{user.Discriminator}'s ₩ was all taken away");
 		}
@@ -60,7 +60,7 @@ namespace _BotName.Source.Discord.Commands
 			CasinoUser casinoUser = CasinoController.Instance.GetCasinoUserRepository().FindOrCreateById(user.Id);
 
 			casinoUser.Money += amount.Value;
-			CasinoController.Instance.Save();
+			// CasinoController.Instance.Save();
 
 			return ReplyAsync($"{amount} ₩ appeared in {user.Username}#{user.Discriminator} pocket");
 		}

@@ -151,7 +151,7 @@ namespace _BotName.Source.Discord.Commands
 				user.Money += money;
 			}
 
-			CasinoController.Instance.Save();
+			// CasinoController.Instance.Save();
 
 			if (highestWin == SlotWin.Bar)
 			{
@@ -207,7 +207,7 @@ namespace _BotName.Source.Discord.Commands
 				user.Money += (multi - 1) * amount.Value;
 			}
 
-			CasinoController.Instance.Save();
+			// CasinoController.Instance.Save();
 
 			if (win == SlotWin.Bar)
 			{

@@ -11,19 +11,20 @@ namespace _BotNameTest.Casino.Currency
         [Fact]
         public void ClaimAndTestCooldown()
         {
-            var casinoMock = new Mock<CasinoController>(true);
+            var casinoMock = new Mock<CasinoController>();
             var casinoUserRepoMock = new Mock<CasinoUserRepository>();
             casinoUserRepoMock.Setup(c => c.FindOrCreateById(123)).Returns(new CasinoUser { Money = 100 });
             casinoMock.Setup(c => c.GetCasinoUserRepository()).Returns(casinoUserRepoMock.Object);
             casinoMock.Setup(c => c.Initialize());
             
-            var order = new Claim(casinoMock.Object);
+            var order = new Claim();
+            order.OverrideCasinoController(casinoMock.Object);
             
             // First claim succeeds
             var claimResult = order.ClaimMoney(123);
             Assert.Equal(ClaimError.Okay, claimResult.Status);
             Assert.NotEqual(0, claimResult.ClaimedAmount);
-            casinoMock.Verify(mock => mock.Save(), Times.Once);
+            //casinoMock.Verify(mock => mock.Save(), Times.Once);
             casinoMock.Invocations.Clear();
             
             // Second claim fails due to cooldown
@@ -31,13 +32,13 @@ namespace _BotNameTest.Casino.Currency
             Assert.Equal(ClaimError.Cooldown, claimResult.Status);
             Assert.Equal(-1, claimResult.ClaimedAmount);
             Assert.True(claimResult.NextClaimTime > DateTime.Now);
-            casinoMock.Verify(mock => mock.Save(), Times.Never);
+            //casinoMock.Verify(mock => mock.Save(), Times.Never);
         }
         
         [Fact]
         public void ClaimAndForceClaim()
         {
-            var casinoMock = new Mock<CasinoController>(true);
+            var casinoMock = new Mock<CasinoController>();
             var casinoUser = new CasinoUser {Money = 100};
             
             var casinoUserRepoMock = new Mock<CasinoUserRepository>();
@@ -45,22 +46,21 @@ namespace _BotNameTest.Casino.Currency
             casinoMock.Setup(c => c.GetCasinoUserRepository()).Returns(casinoUserRepoMock.Object);
             casinoMock.Setup(c => c.Initialize());
             
-            Claim order = new Claim(casinoMock.Object);
+            var order = new Claim();
+            order.OverrideCasinoController(casinoMock.Object);
 
             // First claim succeeds
-            var moneyBefore = casinoUser.Money;
             var claimResult = order.ClaimMoney(123);
             Assert.Equal(ClaimError.Okay, claimResult.Status);
             Assert.NotEqual(0, claimResult.ClaimedAmount);
-            Assert.Equal(moneyBefore + claimResult.ClaimedAmount, casinoUser.Money);
-            casinoMock.Verify(mock => mock.Save(), Times.Once);
+            casinoUserRepoMock.Verify(mock => mock.AddMoney(casinoUser, claimResult.ClaimedAmount), Times.Once);
             casinoMock.Invocations.Clear();
             
             // Force claim succeeds
             claimResult = order.ClaimMoney(123, true);
             Assert.Equal(ClaimError.Okay, claimResult.Status);
             Assert.NotEqual(0, claimResult.ClaimedAmount);
-            casinoMock.Verify(mock => mock.Save(), Times.Once);
+            casinoUserRepoMock.Verify(mock => mock.AddMoney(casinoUser, claimResult.ClaimedAmount), Times.Once);
             casinoMock.Invocations.Clear();
             
             // Force claim should set the cooldown nonetheless
@@ -68,7 +68,7 @@ namespace _BotNameTest.Casino.Currency
             Assert.Equal(ClaimError.Cooldown, claimResult.Status);
             Assert.Equal(-1, claimResult.ClaimedAmount);
             Assert.True(claimResult.NextClaimTime > DateTime.Now);
-            casinoMock.Verify(mock => mock.Save(), Times.Never);
+            casinoUserRepoMock.Verify(mock => mock.AddMoney(casinoUser, claimResult.ClaimedAmount), Times.Never);
         }
     }
 }

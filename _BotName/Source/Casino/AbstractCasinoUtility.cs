@@ -2,10 +2,15 @@
 {
     public abstract class AbstractCasinoUtility
     {
-        protected readonly CasinoController _casinoController;
+        protected CasinoController _casinoController;
         
-        protected AbstractCasinoUtility(CasinoController casinoController = null) {
-            _casinoController = casinoController ?? CasinoController.Instance;
+        protected AbstractCasinoUtility() {
+            _casinoController = CasinoController.Instance;
+        }
+
+        public void OverrideCasinoController(CasinoController casinoController)
+        {
+            _casinoController = casinoController;
         }
     }
 }

@@ -101,7 +101,7 @@ namespace _BotName.Source.Discord.Commands
 			casinoWinner.Money += challenge.amount;
 			casinoLoser.Money -= challenge.amount;
 
-			CasinoController.Instance.Save();
+			//CasinoController.Instance.Save();
 
 			return ReplyAsync($"{winner.Username}#{winner.Discriminator} won from {loser.Username}#{loser.Discriminator} {challenge.amount} ₩");
 		}
@@ -173,7 +173,7 @@ namespace _BotName.Source.Discord.Commands
 			casinoUserGiver.Money -= amount.Value;
 			casinoUserGetter.Money += amount.Value;
 
-			CasinoController.Instance.Save();
+			// CasinoController.Instance.Save();
 
 			return ReplyAsync($"{Context.User.Username}#{Context.User.Discriminator} gave {user.Username}#{user.Discriminator} {amount} ₩");
 		}

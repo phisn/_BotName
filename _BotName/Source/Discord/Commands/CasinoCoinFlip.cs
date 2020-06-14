@@ -66,7 +66,7 @@ namespace _BotName.Source.Discord.Commands
 				user.Money -= amount.Value;
 			}
 
-			CasinoController.Instance.Save();
+			// CasinoController.Instance.Save();
 
 			return ReplyAsync(builder.ToString());
 		}
@@ -102,7 +102,7 @@ namespace _BotName.Source.Discord.Commands
 				user.Money -= amount.Value;
 			}
 
-			CasinoController.Instance.Save();
+			// CasinoController.Instance.Save();
 
 			return ReplyAsync(builder.ToString());
 		}

@@ -23,8 +23,6 @@ namespace _BotName.Source.Casino.Currency
         private readonly int minClaim = 1;
         private readonly int maxClaim = 100;
         
-        public Claim(CasinoController casinoController = null) : base(casinoController) { }
-        
         public void ResetAllClaims()
         {
             claims.Clear();
@@ -49,8 +47,9 @@ namespace _BotName.Source.Casino.Currency
 
             var claimedMoney = new Random().Next(minClaim, maxClaim + 1);
 
-            _casinoController.GetCasinoUserRepository().FindOrCreateById(userId).Money += claimedMoney;
-            _casinoController.Save();
+            var userRepository = _casinoController.GetCasinoUserRepository();
+            var user = userRepository.FindOrCreateById(userId);
+            userRepository.AddMoney(user, claimedMoney);
 
             result.Status = ClaimError.Okay;
             result.ClaimedAmount = claimedMoney;
